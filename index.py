@@ -20,7 +20,7 @@ window.title("How do you feel now?")
 
         place.append(i)
 '''
-buttonBlue
+
 
 #Finally, as the last step, you use the mainloop() method to display the window until you manually close it.
 #It runs an infinite loop in the backend.
