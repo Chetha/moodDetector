@@ -1,40 +1,60 @@
-import tkinter as tk
-import random
+from tkinter import *
 
 #def buttonClick():
 #    print("I am a blue tk.Button")
-
-window = tk.Tk()
-
-window.title("How do you feel now?")
-window.minsize(width=100, height=100)
-window.geometry('500x310+0+0')
-
-
 #WE WILL USE .grid() for this
 #A_1.grid(row = random.choice(place), column = random.choice(place)) where A1 is the Label
 #and place is a list and below is how you populate the list
-buttons = []
+class buttonGrid(Frame):
 
-colors = ["red", "blue", "green", "thistle4", "black", "brown", "purple", "orange", "pink"]
-def disableButton(index, button):
-    
+    def __init__(self):
+        Frame.__init__(self)
+        #no need to add window parameter next to self, as master defaults to None and
+        #also each widget properly associates with its parent without speicification
+        #super().__init__(self)
+        buttons = []
+        colors = ["red", "blue", "green", "thistle4", "black", "brown", "purple", "orange", "pink"]
 
-for index in range(9):
-    color = colors[index]
-    button=tk.Button(window,text= index, highlightbackground = color,
-    command=lambda index=index, color=color: disableButton(index, button))
+        def disableButton(index, highlightbackground):
+                #priority.append(buttons[index].cget())
+            priority.append(buttons[index].cget("highlightbackground"))
+            buttons[index].config(state="disabled")
+        for index in range(9):
+            color = colors[index]
+            #no need to mention this as self.button,
+            #it is understood that the button's type is this class
+            button=Button(self,text= index, highlightbackground = color,
+            command=lambda index=index, highlightbackground=color: disableButton(index, highlightbackground))
 
-    # Add the button to the window
-    button.grid(padx=2, pady=2, row=int(index%3), column=int(index/3))
+            # Add the button to the window
+            button.grid(row=int(index%3), column=int(index/3))
+            # Add a reference to the button to 'buttons'
+            buttons.append(button)
+            #print(buttons)
+            #print(priority)
+class quitClass(Frame):
 
-    # Add a reference to the button to 'buttons'
-    buttons.append(button)
-    print(buttons)
+    def __init__(self):
+        Frame.__init__(self)
+        #super().__init__(self)
+        def quitCommand():
+            print(priority)
+            window.destroy()
 
+        quitButton = Button(self, text = "Done" , command = quitCommand)
+        quitButton.pack()
+
+window = Tk()
+window.title("How do you feel now?")
+window.minsize(width=100, height=100)
+window.geometry('500x310+0+0')
+priority = []
+frame1 = buttonGrid()
+#frame1 = buttonGrid(window) -> It is not necessary to pass window as parameter
+frame2 = quitClass()
+frame1.pack(side = "top")
+frame2.pack(side = "bottom")
 window.mainloop()
-
-
 
 '''
 button1=tk.Button(window,text="B1", highlightbackground = "thistle4", )
@@ -63,5 +83,6 @@ button8.grid(row=3,column=2)
 
 button9=tk.Button(window,text="B9", highlightbackground = "thistle4")
 button9.grid(row=3,column=3)
-'''
+
 window.mainloop()
+'''
