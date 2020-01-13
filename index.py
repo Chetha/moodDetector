@@ -13,21 +13,22 @@ class buttonGrid(Frame):
         #also each widget properly associates with its parent without speicification
         #super().__init__(self)
         buttons = []
-        colors = ["red", "blue", "green", "thistle4", "black", "brown", "purple", "orange", "pink"]
-
+        #colors = ["light slate grey", "royalblue1", "indian red", "coral1", "black", "brown", "purple", "orange", "pink"]
+        colors = ["indian red", "dark orange", "gold2", "DodgerBlue3", "dark violet", "purple1", "RosyBrown3", "light slate grey", "seashell3"]
         def disableButton(index, highlightbackground):
                 #priority.append(buttons[index].cget())
             priority.append(buttons[index].cget("highlightbackground"))
             buttons[index].config(state="disabled")
-        for index in range(9):
+        for index in range(len(colors)):
             color = colors[index]
             #no need to mention this as self.button,
             #it is understood that the button's type is this class
-            button=Button(self,text= index, highlightbackground = color,
+            button=Button(self,text= index, highlightbackground = color, highlightthickness=30,
             command=lambda index=index, highlightbackground=color: disableButton(index, highlightbackground))
 
             # Add the button to the window
             button.grid(row=int(index%3), column=int(index/3))
+
             # Add a reference to the button to 'buttons'
             buttons.append(button)
             #print(buttons)
@@ -42,7 +43,16 @@ class quitClass(Frame):
             window.destroy()
 
         quitButton = Button(self, text = "Done" , command = quitCommand)
-        quitButton.pack()
+        quitButton.pack(side = "bottom")
+
+        genderLabel = Label(self, text = "Please select your gender:")
+        genderLabel.pack(side = "left")
+
+        variable = StringVar(self)
+        variable.set("Select") # default value
+        #For dropdown
+        genderCombo = OptionMenu(self, variable, "Select", "Male", "Female", "Other")
+        genderCombo.pack(side = "left")
 
 window = Tk()
 window.title("How do you feel now?")
@@ -53,7 +63,7 @@ frame1 = buttonGrid()
 #frame1 = buttonGrid(window) -> It is not necessary to pass window as parameter
 frame2 = quitClass()
 frame1.pack(side = "top")
-frame2.pack(side = "bottom")
+frame2.pack()
 window.mainloop()
 
 '''
